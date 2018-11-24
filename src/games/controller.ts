@@ -1,4 +1,4 @@
-import { Controller, Get, Post, HttpCode, Body, Put, Param, NotFoundError, BadRequestError } from 'routing-controllers'
+import { Controller, Get, Post, HttpCode, Body, Put, Param, NotFoundError, BadRequestError} from 'routing-controllers'
 import Game from './entity';
 
 @Controller()
@@ -25,18 +25,26 @@ async updateGame(
   @Body() update: Partial<Game>
 ) {
   const game = await Game.findOne(id)
+
   if (!game) throw new NotFoundError('Game cannot be found')
-  if (update.color !== 'red' && update.color !== 'blue' && update.color !== 'yellow'&& update.color !== 'green' && update.color !== 'magenta' )  {
-    throw new BadRequestError('invalid color')
+
+  if (update.color) {
+    if (update.color !== 'red' && update.color !== 'blue' && update.color !== 'yellow'&& update.color !== 'green' && update.color !== 'magenta' )  {
+      throw new BadRequestError('invalid color')
+    }
   }
-  const moves = (board1, board2) => 
-  board1
-    .map((row, y) => row.filter((cell, x) => board2[y][x] !== cell))
-    .reduce((a, b) => a.concat(b))
-    .length
-  if (moves(game.board, update.board)>1) {
-    throw new BadRequestError('you are allowed only 1 move')
+  
+  if (update.board) {
+    const moves = (board1, board2) => 
+    board1
+      .map((row, y) => row.filter((cell, x) => board2[y][x] !== cell))
+      .reduce((a, b) => a.concat(b))
+      .length
+    if ( moves(game.board, update.board) > 1 ) {
+      throw new BadRequestError('you are allowed only 1 move')
+    }
   }
+
   return Game.merge(game, update).save()
 }
 

@@ -1,7 +1,7 @@
-import { Controller, Get, Post, HttpCode, Body, Put, Param, NotFoundError, BadRequestError} from 'routing-controllers'
+import { JsonController, Get, Post, HttpCode, Body, Put, Param, NotFoundError, BadRequestError} from 'routing-controllers'
 import Game from './entity';
 
-@Controller()
+@JsonController()
 export default class MainController {
 
   @Get("/games")
@@ -35,12 +35,13 @@ async updateGame(
   }
   
   if (update.board) {
+    
     const moves = (board1, board2) => 
     board1
       .map((row, y) => row.filter((cell, x) => board2[y][x] !== cell))
       .reduce((a, b) => a.concat(b))
       .length
-    if ( moves(game.board, update.board) > 1 ) {
+    if ( moves(game.board, update.board) >=2 ) {
       throw new BadRequestError('you are allowed only 1 move')
     }
   }

@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm'
 import { BaseEntity } from 'typeorm/repository/BaseEntity'
-import { IsString, } from 'class-validator'
+import { IsString } from 'class-validator'
 
 type Board = [
     [string, string, string],

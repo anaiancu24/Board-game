@@ -1,0 +1,28 @@
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm'
+import { BaseEntity } from 'typeorm/repository/BaseEntity'
+import { IsString, } from 'class-validator'
+
+type Board = [
+    [string, string, string],
+    [string, string, string],
+    [string, string, string]
+]
+const colorList = ["red", "blue", "green", "magenta"]
+
+@Entity()
+export default class Game extends BaseEntity {
+
+  @PrimaryGeneratedColumn()
+  id?: number
+
+  @IsString()
+    @Column('text', {nullable:false})
+  name: string
+
+  @IsString()
+  @Column('text')
+  color: string = colorList[Math.floor(Math.random()*5)]
+
+  @Column('json', {nullable:true})
+  board: Board
+}

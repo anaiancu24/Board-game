@@ -7,7 +7,13 @@ type Board = [
     [string, string, string],
     [string, string, string]
 ]
-const colorList = ["red", "blue", "green", "magenta"]
+const colorList = ["red", "blue", "green", "yellow", "magenta"]
+
+const defaultBoard = [
+	['o', 'o', 'o'],
+	['o', 'o', 'o'],
+	['o', 'o', 'o']
+]
 
 @Entity()
 export default class Game extends BaseEntity {
@@ -23,6 +29,6 @@ export default class Game extends BaseEntity {
   @Column('text')
   color: string = colorList[Math.floor(Math.random()*5)]
 
-  @Column('json', {nullable:true})
-  board: Board
+  @Column('json', {default: defaultBoard})
+  board: Board 
 }

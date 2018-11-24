@@ -41,7 +41,8 @@ async updateGame(
       .map((row, y) => row.filter((cell, x) => board2[y][x] !== cell))
       .reduce((a, b) => a.concat(b))
       .length
-    if ( moves(game.board, update.board) >=2 ) {
+    
+    if ( moves(game.board, update.board) <8 ) {
       throw new BadRequestError('you are allowed only 1 move')
     }
   }
